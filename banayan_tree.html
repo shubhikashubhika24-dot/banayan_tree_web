@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>🌳 Banyan Tree Adventure for Kids</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Fredoka+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #c8e8a9 0%, #a2d46b 100%);
+      font-family: 'Quicksand', sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* floating leaves */
+    body::before, body::after {
+      content: "🌿";
+      font-size: 70px;
+      position: fixed;
+      opacity: 0.2;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatLeaf 14s infinite linear;
+    }
+    body::before {
+      top: 5%;
+      left: -40px;
+    }
+    body::after {
+      content: "🍃";
+      bottom: 5%;
+      right: -40px;
+      animation-duration: 18s;
+      animation-direction: reverse;
+    }
+    @keyframes floatLeaf {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(60px) rotate(20deg); }
+    }
+
+    .adventure-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      background: rgba(255, 248, 215, 0.92);
+      backdrop-filter: blur(4px);
+      border-radius: 70px;
+      box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+      padding: 25px 30px 45px;
+      border: 2px solid #ffefb0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .hero h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 3.4rem;
+      background: linear-gradient(135deg, #2c5e2a, #5b8c3e, #d9a13b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: bounceGlow 2s infinite;
+      cursor: pointer;
+    }
+    @keyframes bounceGlow {
+      0% { text-shadow: 0 0 0 #ffd966; }
+      50% { text-shadow: 0 0 12px #ffb347; }
+      100% { text-shadow: 0 0 0 #ffd966; }
+    }
+    .hero p {
+      font-size: 1.4rem;
+      background: #fef5cf;
+      display: inline-block;
+      padding: 8px 25px;
+      border-radius: 60px;
+      box-shadow: 0 8px 0 #b97f2e;
+      color: #3b2a1f;
+      font-weight: 600;
+    }
+
+    .split-layout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin: 30px 0;
+    }
+    .info-card {
+      flex: 1.2;
+      background: #fff7e8;
+      border-radius: 58px;
+      padding: 20px 28px;
+      box-shadow: 12px 16px 28px rgba(0,0,0,0.1);
+      border: 3px solid #ffcf6e;
+    }
+    .video-card {
+      flex: 1;
+      background: #d9e6b3;
+      border-radius: 58px;
+      padding: 20px;
+      border: 3px solid #ffb347;
+      text-align: center;
+    }
+    .video-card h3 {
+      font-size: 1.8rem;
+      background: #ffefb0;
+      display: inline-block;
+      padding: 5px 20px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+      color: #3c5a2b;
+    }
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      border-radius: 48px;
+      overflow: hidden;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 48px;
+    }
+    .fun-facts {
+      background: #fffaec;
+      border-radius: 60px;
+      padding: 25px;
+      margin: 20px 0;
+      box-shadow: inset 0 0 0 3px #f5e2a1, 0 12px 18px rgba(0,0,0,0.08);
+    }
+    .fun-facts h2 {
+      font-size: 2rem;
+      color: #6b3e1c;
+      border-left: 14px solid #f4a261;
+      padding-left: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .facts-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: center;
+    }
+    .fact {
+      background: #f8e7b4;
+      border-radius: 38px;
+      padding: 15px 20px;
+      width: 210px;
+      text-align: center;
+      transition: 0.3s;
+      box-shadow: 0 8px 0 #b68b40;
+    }
+    .fact i {
+      font-size: 2.5rem;
+      color: #bc6c25;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .fact p {
+      font-weight: 700;
+      color: #2f3e2e;
+    }
+    .fact:hover {
+      transform: translateY(-8px);
+      background: #ffdd99;
+    }
+
+    /* QR CODE SECTION */
+    .qr-section {
+      background: #e6d5b3;
+      border-radius: 60px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      padding: 30px 35px;
+      margin-top: 30px;
+      border: 4px solid #b78f4b;
+    }
+    .qr-text {
+      text-align: center;
+      flex: 1;
+    }
+    .qr-text h3 {
+      font-size: 2rem;
+      color: #4b2e16;
+      font-family: 'Fredoka One', cursive;
+    }
+    .qr-text p {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #2c4b1e;
+    }
+    .qr-code-box {
+      background: white;
+      padding: 20px;
+      border-radius: 48px;
+      box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    #qrcode {
+      display: flex;
+      justify-content: center;
+    }
+    #qrcode canvas {
+      width: 150px;
+      height: 150px;
+      border-radius: 24px;
+    }
+    .qr-code-box p {
+      margin-top: 12px;
+      font-weight: bold;
+      color: #2d572c;
+    }
+
+    .quiz-teaser {
+      background: #c9e085;
+      border-radius: 48px;
+      padding: 18px;
+      margin: 30px 0 15px;
+      text-align: center;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { background: #c9e085; }
+      50% { background: #e2f0b3; box-shadow: 0 0 0 5px #fff0b5; }
+    }
+    .quiz-teaser button {
+      background: #ff9f4a;
+      border: none;
+      font-size: 1.3rem;
+      font-family: 'Fredoka One', cursive;
+      padding: 10px 30px;
+      border-radius: 60px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #9b4b1a;
+      transition: 0.1s;
+    }
+    .quiz-teaser button:active {
+      transform: translateY(4px);
+    }
+    .quiz-answer {
+      margin-top: 18px;
+      background: #fdf8e0;
+      border-radius: 48px;
+      padding: 12px;
+      font-weight: bold;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-weight: 600;
+      color: #3a2a1b;
+    }
+    @media (max-width: 800px) {
+      .adventure-container { padding: 18px; }
+      .hero h1 { font-size: 2.5rem; }
+      .fact { width: 160px; }
+      .qr-section { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="adventure-container">
+  <div class="hero">
+    <h1>🌳 The Magical Banyan Tree 🌿</h1>
+    <p>✨ A giant, friendly tree that grows upside-down roots! ✨</p>
+  </div>
+
+  <div class="split-layout">
+    <div class="info-card">
+      <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+        <i class="fas fa-tree" style="font-size: 3rem; color: #548c2f;"></i>
+        <h2 style="color:#5a3e1f;">🌱 Amazing Banyan Facts</h2>
+      </div>
+      <p style="font-size:1.2rem; line-height:1.5; margin-bottom:20px;">The <strong>Banyan tree</strong> (Ficus benghalensis) is India's national tree! It can grow so wide that thousands of people can sit under its shade. Its unique aerial roots grow downward and become new trunks — it’s like a magical forest in one tree! 🌟</p>
+      <div class="fun-facts">
+        <h2><i class="fas fa-lightbulb"></i> Fun-tastic Facts!</h2>
+        <div class="facts-grid">
+          <div class="fact"><i class="fas fa-cloud-sun"></i><p>🌿 Lives over <strong>200 years</strong>!</p></div>
+          <div class="fact"><i class="fas fa-seedling"></i><p>🌱 Aerial roots become new trunks</p></div>
+          <div class="fact"><i class="fas fa-paw"></i><p>🐒 Home to monkeys & birds</p></div>
+          <div class="fact"><i class="fas fa-water"></i><p>💧 Covers 1.5 hectares in India</p></div>
+          <div class="fact"><i class="fas fa-heart"></i><p>❤️ Symbol of wisdom & shelter</p></div>
+        </div>
+      </div>
+      <div style="background:#e9dba9; border-radius: 40px; padding: 12px 18px;">
+        <i class="fas fa-smile-wink"></i> <strong>Did you know?</strong> The Great Banyan in Kolkata has over 3,600 aerial roots!
+      </div>
+    </div>
+
+    <!-- Google Drive Video Embed - Using your video -->
+    <div class="video-card">
+      <h3><i class="fab fa-google-drive"></i> 🎥 The Talking Banyan Tree</h3>
+      <div class="video-wrapper">
+        <!-- Extracted File ID: 1C7Omi2Ub-G343NLRLmXiyZsRvoof8J5V -->
+        <iframe src="https://drive.google.com/file/d/1C7Omi2Ub-G343NLRLmXiyZsRvoof8J5V/preview" title="The Talking Banyan Tree - Kids Moral Story" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <p style="margin-top: 15px; background: #ffedb2; display: inline-block; padding: 5px 15px; border-radius: 60px;">🌟 Watch the amazing story of the talking Banyan tree! 🌟</p>
+    </div>
+  </div>
+
+  <!-- Fun Quiz -->
+  <div class="quiz-teaser">
+    <button id="quizBtn"><i class="fas fa-question-circle"></i> 🌟 Pop Quiz! Test Your Banyan Brain! 🌟</button>
+    <div id="quizFeedback" style="margin-top: 12px;"></div>
+  </div>
+
+  <footer>
+    🌈 The Banyan Tree — Nature's giant playground! 🌈<br>
+    🌟 Keep exploring, little adventurer! 🌟
+  </footer>
+</div>
+
+<script>
+
+  // ========== QUIZ ==========
+  const quizBtn = document.getElementById("quizBtn");
+  const feedbackDiv = document.getElementById("quizFeedback");
+  let currentQIndex = 0;
+  const questions = [
+    { q: "🌿 What special roots does a Banyan tree grow that become new trunks?", 
+      options: ["A) Tap roots", "B) Aerial roots", "C) Carrot roots", "D) Swimming roots"], 
+      correct: "B) Aerial roots" },
+    { q: "🐒 Which animal loves to live in Banyan trees?", 
+      options: ["A) Penguins", "B) Monkeys", "C) Elephants", "D) Giraffes"], 
+      correct: "B) Monkeys" },
+    { q: "🇮🇳 The Banyan tree is the national tree of which country?", 
+      options: ["A) Brazil", "B) Australia", "C) India", "D) Canada"], 
+      correct: "C) India" },
+    { q: "🌳 How long can a Banyan tree live?", 
+      options: ["A) 10 years", "B) 50 years", "C) Over 200 years", "D) Only 5 years"], 
+      correct: "C) Over 200 years" }
+  ];
+
+  function displayQuestion() {
+    if (currentQIndex >= questions.length) {
+      feedbackDiv.innerHTML = `<div class="quiz-answer">🎉🏆 AMAZING! You're a Banyan Tree expert! 🏆🎉<br>🌟 Share this page with the QR code! 🌟</div>`;
+      quizBtn.textContent = "🌱 Play Again? 🌱";
+      return;
+    }
+    const q = questions[currentQIndex];
+    let html = `<div style="background:#fff0c8; border-radius: 50px; padding: 10px;"><p style="font-size:1.3rem; font-weight:bold;">${q.q}</p><div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:12px;">`;
+    q.options.forEach(opt => {
+      html += `<button class="opt-btn" data-opt="${opt}" style="background:#f4b942; border:none; padding:8px 18px; border-radius:60px; font-weight:bold; font-size:1rem; cursor:pointer; box-shadow:0 4px 0 #7e4a1f;">${opt}</button>`;
+    });
+    html += `</div></div>`;
+    feedbackDiv.innerHTML = html;
+    document.querySelectorAll('.opt-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const selected = btn.getAttribute('data-opt');
+        if (selected === q.correct) {
+          feedbackDiv.innerHTML = `<div class="quiz-answer">✅ CORRECT! ${selected} is right! 🎉<br>✨ Next question ✨</div><button id="nextQuizBtn" style="background:#73a84e; margin-top:15px; border:none; padding:8px 25px; border-radius:40px; color:white; font-weight:bold; cursor:pointer;">➡️ Next ➡️</button>`;
+          document.getElementById("nextQuizBtn")?.addEventListener('click', () => {
+            currentQIndex++;
+            displayQuestion();
+          });
+        } else {
+          feedbackDiv.innerHTML = `<div class="quiz-answer" style="background:#ffd1b3;">❌ Oops! ${selected} is not correct. Try again! 🌱<br>Hint: ${q.correct}</div><button id="retryBtn" style="background:#c97e2a; margin-top:12px; border:none; padding:8px 20px; border-radius:40px; color:white; cursor:pointer;">🔄 Try Again 🔄</button>`;
+          document.getElementById("retryBtn")?.addEventListener('click', () => displayQuestion());
+        }
+      });
+    });
+  }
+
+  function startQuiz() {
+    currentQIndex = 0;
+    displayQuestion();
+    quizBtn.textContent = "🧠 Quiz in Progress... 🧠";
+  }
+
+  quizBtn.addEventListener('click', () => {
+    if (quizBtn.textContent.includes("Play Again")) startQuiz();
+    else if (!feedbackDiv.innerHTML.includes("opt-btn") && !feedbackDiv.innerHTML.includes("Next")) startQuiz();
+    else if (feedbackDiv.innerHTML === "") startQuiz();
+  });
+
+  // ========== FUN FLOATING LEAVES ==========
+  function createLeaf() {
+    const leaf = document.createElement('div');
+    leaf.innerHTML = ['🍃', '🌿', '🍂', '🌱'][Math.floor(Math.random() * 4)];
+    leaf.style.position = 'fixed';
+    leaf.style.fontSize = (20 + Math.random() * 35) + 'px';
+    leaf.style.left = Math.random() * window.innerWidth + 'px';
+    leaf.style.bottom = '-40px';
+    leaf.style.opacity = '0.5';
+    leaf.style.pointerEvents = 'none';
+    leaf.style.zIndex = '1';
+    document.body.appendChild(leaf);
+    const duration = 7000 + Math.random() * 5000;
+    leaf.animate([
+      { transform: 'translateY(0px) rotate(0deg)', opacity: 0.6 },
+      { transform: `translateY(-${window.innerHeight + 100}px) rotate(${Math.random() * 60 - 30}deg)`, opacity: 0 }
+    ], { duration, easing: 'ease-in', fill: 'forwards' }).onfinish = () => leaf.remove();
+  }
+  setInterval(() => { if (document.hasFocus() && Math.random() > 0.4) createLeaf(); }, 4000);
+
+  // Title click surprise
+  document.querySelector('.hero h1').addEventListener('click', () => {
+    const msg = document.createElement('div');
+    msg.innerText = '🌳✨ Banyan Hugs You! ✨🌿';
+    msg.style.position = 'fixed';
+    msg.style.bottom = '40%';
+    msg.style.left = '50%';
+    msg.style.transform = 'translateX(-50%)';
+    msg.style.backgroundColor = '#ffefb0';
+    msg.style.padding = '15px 30px';
+    msg.style.borderRadius = '80px';
+    msg.style.fontWeight = 'bold';
+    msg.style.fontSize = '1.4rem';
+    msg.style.zIndex = '999';
+    msg.style.boxShadow = '0 0 20px gold';
+    msg.style.fontFamily = "'Fredoka One', cursive";
+    document.body.appendChild(msg);
+    setTimeout(() => msg.remove(), 1800);
+  });
+
+  // fade-in animation
+  const style = document.createElement('style');
+  style.textContent = `@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  .info-card, .video-card, .fun-facts, .qr-section { animation: fadeUp 0.5s ease-out forwards; opacity:0; }
+  .info-card { animation-delay: 0.05s; }
+  .video-card { animation-delay: 0.1s; }
+  .fun-facts { animation-delay: 0.15s; }
+  .qr-section { animation-delay: 0.2s; }`;
+  document.head.appendChild(style);
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.info-card, .video-card, .fun-facts, .qr-section').forEach(el => el.style.opacity = '1');
+  });
+</script>
+</body>
+</html>
